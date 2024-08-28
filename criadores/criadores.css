@@ -1,0 +1,29 @@
+body {
+    background-image: linear-gradient(rgb(42, 36, 46), rgb(13, 13, 14));
+}
+
+.devs {
+    margin-left: 14%;
+    margin-top: 100;
+}
+
+.devsnames {
+    color: aliceblue;
+    margin-left: 10%;
+    margin-bottom: 10000;
+}
+
+.text {
+    color: aliceblue;
+    margin-left: 100;
+}
+
+.rip {
+    margin-top: 1000;
+    margin-left: 200;
+}
+
+.botao {
+    margin-top: 100;
+    margin-left: 85%;
+}

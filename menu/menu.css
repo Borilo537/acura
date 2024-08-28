@@ -1,0 +1,39 @@
+body{
+  background-image: linear-gradient(rgb(18, 58, 66), rgb(34, 29, 36), rgb(34, 29, 36));
+}
+
+.titulo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -150;
+  }
+
+.jogar {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+.modo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+.player {
+  position: fixed;
+  margin-left: 42%;
+}
+
+.player2 {
+  position: fixed;
+  margin-left: 51%;
+}
+
+
+.devs {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
