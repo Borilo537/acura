@@ -1,9 +1,11 @@
+const morteTexto = document.querySelector('.morteTexto')
+
 var modo = localStorage['mode'];
 
-if (modo == 'normal'){
+if (modo == 'normal') {
     normal2 = true
     hardcore2 = false
-}else{
+} else {
     normal2 = false
     hardcore2 = true
 }
@@ -12,15 +14,15 @@ const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
 
 canvas.width = 64 * 30
-canvas.height = 64 * 15 
+canvas.height = 64 * 15
 let vivo = true
 
-let parsedCollisions 
-let collisionBlocks 
+let parsedCollisions
+let collisionBlocks
 let background
 
 let level1Text
-level1Text = [  
+level1Text = [
     new Sprite({
         position: {
             x: -1650,
@@ -31,7 +33,7 @@ level1Text = [
     }),
 ]
 let wText
-wText = [  
+wText = [
     new Sprite({
         position: {
             x: -50650,
@@ -42,7 +44,7 @@ wText = [
     }),
 ]
 let data
-data = [  
+data = [
     new Sprite({
         position: {
             x: -1650,
@@ -53,7 +55,7 @@ data = [
     }),
 ]
 let shiftText
-shiftText = [  
+shiftText = [
     new Sprite({
         position: {
             x: -1650,
@@ -64,7 +66,7 @@ shiftText = [
     }),
 ]
 let jumpText
-jumpText = [  
+jumpText = [
     new Sprite({
         position: {
             x: -1650,
@@ -76,7 +78,7 @@ jumpText = [
 ]
 // OBSTACULOS
 let portalFlick
-portalFlick = [  
+portalFlick = [
     new Sprite({
         position: {
             x: -10650,
@@ -85,9 +87,9 @@ portalFlick = [
         imageSrc: '../Sprites/portalF.png',
 
     }),
-]    
+]
 let plat
-plat = [  
+plat = [
     new Sprite({
         position: {
             x: -10650,
@@ -98,7 +100,7 @@ plat = [
     }),
 ]
 let chuva
-chuva = [  
+chuva = [
     new Sprite({
         position: {
             x: -10650,
@@ -109,7 +111,7 @@ chuva = [
     }),
 ]
 let trap1
-trap1 = [  
+trap1 = [
     new Sprite({
         position: {
             x: -1650,
@@ -120,7 +122,7 @@ trap1 = [
     }),
 ]
 let trap2
-trap2 = [  
+trap2 = [
     new Sprite({
         position: {
             x: -1650,
@@ -130,7 +132,7 @@ trap2 = [
     }),
 ]
 let trap3
-trap3 = [  
+trap3 = [
     new Sprite({
         position: {
             x: -1650,
@@ -140,7 +142,7 @@ trap3 = [
     }),
 ]
 let trap4
-trap4 = [  
+trap4 = [
     new Sprite({
         position: {
             x: -1650,
@@ -150,7 +152,7 @@ trap4 = [
     }),
 ]
 let trap5
-trap5 = [  
+trap5 = [
     new Sprite({
         position: {
             x: -1650,
@@ -160,7 +162,7 @@ trap5 = [
     }),
 ]
 let trap6
-trap6 = [  
+trap6 = [
     new Sprite({
         position: {
             x: -1650,
@@ -171,7 +173,7 @@ trap6 = [
 ]
 // NPC
 let nicholas
-nicholas = [  
+nicholas = [
     new Sprite({
         position: {
             x: -1650,
@@ -182,117 +184,117 @@ nicholas = [
 ]
 
 
-    const player = new Player({ 
-        collisionBlocks,
-        imageSrc: '../Sprites/p_idle.png',
-        frameRate: 12,
-        animations: {
-            idleRight: {
-                frameRate: 12,
-                frameBuffer: 5.5/2,
-                loop: true,
-                imageSrc: '../Sprites/p_idle.png',
-            },
-            idleLeft: {
-                frameRate: 12,
-                frameBuffer: 5.5/2,
-                loop: true,
-                imageSrc: "../Sprites/p_idleLeft.png",
-            },
-            walkRight: {
-                frameRate: 12,
-                frameBuffer: 2/2,
-                loop: true,
-                imageSrc: "../Sprites/p_walk.png",
-            },
-            walkLeft: {
-                frameRate: 12,
-                frameBuffer: 2/2,
-                loop: true,
-                imageSrc: "../Sprites/p_walkLeft.png",
-            },
-            dashRight: {
-                frameRate: 3,
-                frameBuffer: 4/2,
-                loop: true,
-                imageSrc: "../Sprites/p_dash.png",
-            },
-            dashLeft: {
-                frameRate: 3,
-                frameBuffer: 4/2,
-                loop: true,
-                imageSrc: "../Sprites/p_dashLeft.png",
-            },
-            crouchRight: {
-                frameRate: 2,
-                frameBuffer: 20/2,
-                loop: true,
-                imageSrc: '../Sprites/p_crch.png'
-            },
-            crouchLeft: {
-                frameRate: 2,
-                frameBuffer: 2/2,
-                loop: true,
-                imageSrc: '../Sprites/p_crchLeft.png'
-            },
-            jumpRight: {
-                frameRate: 36,
-                frameBuffer: 2,
-                loop: false,
-                imageSrc: '../Sprites/jumprocess.png'
-            },
-            jumpLeft: {
-                frameRate: 36,
-                frameBuffer: 2,
-                loop: false,
-                imageSrc: '../Sprites/jumprocessLeft.png'
-            },
-            jumpFullRight: {
-                frameRate: 12,
-                frameBuffer: 5/2,
-                loop: true,
-                imageSrc: '../Sprites/jumpFull.png'
-            },
-            jumpFullLeft: {
-                frameRate: 12,
-                frameBuffer: 5/2,
-                loop: true,
-                imageSrc: '../Sprites/jumpFullLeft.png'
-            },
-            playerData: {
-                frameRate: 12,
-                frameBuffer: 7/2,
-                loop: false,
-                imageSrc: '../Sprites/p_data.png',
-                onComplete: () => {
-                    gsap.to(overlay, {
-                        opacity: 1,
-                        onComplete: () => {
-                            player.gravity = 0.5 +2.5
-                            level++
-                            levels[level].init()
-                            player.switchSprite('idleRight')
-                            player.preventInput = false
-                            gsap.to(overlay, {
-                                opacity: 0,
-                            })
-                        }   
-                    })
-                }
-
-            },
+const player = new Player({
+    collisionBlocks,
+    imageSrc: '../Sprites/p_idle.png',
+    frameRate: 12,
+    animations: {
+        idleRight: {
+            frameRate: 12,
+            frameBuffer: 5.5 / 2,
+            loop: true,
+            imageSrc: '../Sprites/p_idle.png',
+        },
+        idleLeft: {
+            frameRate: 12,
+            frameBuffer: 5.5 / 2,
+            loop: true,
+            imageSrc: "../Sprites/p_idleLeft.png",
+        },
+        walkRight: {
+            frameRate: 12,
+            frameBuffer: 2 / 2,
+            loop: true,
+            imageSrc: "../Sprites/p_walk.png",
+        },
+        walkLeft: {
+            frameRate: 12,
+            frameBuffer: 2 / 2,
+            loop: true,
+            imageSrc: "../Sprites/p_walkLeft.png",
+        },
+        dashRight: {
+            frameRate: 3,
+            frameBuffer: 4 / 2,
+            loop: true,
+            imageSrc: "../Sprites/p_dash.png",
+        },
+        dashLeft: {
+            frameRate: 3,
+            frameBuffer: 4 / 2,
+            loop: true,
+            imageSrc: "../Sprites/p_dashLeft.png",
+        },
+        crouchRight: {
+            frameRate: 2,
+            frameBuffer: 20 / 2,
+            loop: true,
+            imageSrc: '../Sprites/p_crch.png'
+        },
+        crouchLeft: {
+            frameRate: 2,
+            frameBuffer: 2 / 2,
+            loop: true,
+            imageSrc: '../Sprites/p_crchLeft.png'
+        },
+        jumpRight: {
+            frameRate: 36,
+            frameBuffer: 2,
+            loop: false,
+            imageSrc: '../Sprites/jumprocess.png'
+        },
+        jumpLeft: {
+            frameRate: 36,
+            frameBuffer: 2,
+            loop: false,
+            imageSrc: '../Sprites/jumprocessLeft.png'
+        },
+        jumpFullRight: {
+            frameRate: 12,
+            frameBuffer: 5 / 2,
+            loop: true,
+            imageSrc: '../Sprites/jumpFull.png'
+        },
+        jumpFullLeft: {
+            frameRate: 12,
+            frameBuffer: 5 / 2,
+            loop: true,
+            imageSrc: '../Sprites/jumpFullLeft.png'
+        },
+        playerData: {
+            frameRate: 12,
+            frameBuffer: 7 / 2,
+            loop: false,
+            imageSrc: '../Sprites/p_data.png',
+            onComplete: () => {
+                gsap.to(overlay, {
+                    opacity: 1,
+                    onComplete: () => {
+                        player.gravity = 0.5 + 2.5
+                        level++
+                        levels[level].init()
+                        player.switchSprite('idleRight')
+                        player.preventInput = false
+                        gsap.to(overlay, {
+                            opacity: 0,
+                        })
+                    }
+                })
+            }
 
         },
-    })
+
+    },
+})
 
 
-   
+
 
 let playerPositionX = 0
 let playerPositionY = 0           /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 let level = 1  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 let levels = {                      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     1: {
         init: () => {
             player.resetAll()
@@ -300,12 +302,12 @@ let levels = {                      ////////////////////////////////////////////
             collisionBlocks = parsedCollisions.createObjectsFrom2D()
             player.collisionBlocks = collisionBlocks
             playerPositionX = 490,
-            playerPositionY = 550
+                playerPositionY = 550
             player.position.x = playerPositionX
             player.position.y = playerPositionY
             if (player.currentAnimation) player.currentAnimation.isActive = false
 
-            level1Text = [  
+            level1Text = [
                 new Sprite({
                     position: {
                         x: 0,
@@ -313,11 +315,11 @@ let levels = {                      ////////////////////////////////////////////
                     },
                     imageSrc: '../Sprites/fase1Text.png',
                     frameRate: 11,
-                    frameBuffer: 10/2,
-                    loop: false  
+                    frameBuffer: 10 / 2,
+                    loop: false
                 })]
-            setTimeout(function(){
-                level1Text = [  
+            setTimeout(function () {
+                level1Text = [
                     new Sprite({
                         position: {
                             x: 0,
@@ -325,32 +327,33 @@ let levels = {                      ////////////////////////////////////////////
                         },
                         imageSrc: '../Sprites/fase1TextOut.png',
                         frameRate: 6,
-                        frameBuffer: 7/2,
-                        loop: false  
-                    })]}, gigadelay)
-
-
-                wText = [  
-                    new Sprite({
-                        position: {
-                            x: 0,
-                            y: 0,
-                        },
-                        imageSrc: '../Sprites/wText.png',
-                        frameRate: 6,
-                        frameBuffer: 10/2,
-                        loop: false  
+                        frameBuffer: 7 / 2,
+                        loop: false
                     })]
-            
+            }, gigadelay)
+
+
+            wText = [
+                new Sprite({
+                    position: {
+                        x: 0,
+                        y: 0,
+                    },
+                    imageSrc: '../Sprites/wText.png',
+                    frameRate: 6,
+                    frameBuffer: 10 / 2,
+                    loop: false
+                })]
+
 
             background = new Sprite({
                 position: {
                     x: 0,
-                    y: 0 
-            },
-            imageSrc: '../Sprites/fase1.png'
+                    y: 0
+                },
+                imageSrc: '../Sprites/fase1.png'
             })
-            data = [  
+            data = [
                 new Sprite({
                     position: {
                         x: 1500,
@@ -358,14 +361,14 @@ let levels = {                      ////////////////////////////////////////////
                     },
                     imageSrc: '../Sprites/data.png',
                     frameRate: 11,
-                    frameBuffer: 10/2,
+                    frameBuffer: 10 / 2,
                     loop: false,
                     autoplay: false,
-                    
+
                 }),
             ]
 
-            
+
         },
     },
 
@@ -378,21 +381,21 @@ let levels = {                      ////////////////////////////////////////////
             collisionBlocks = parsedCollisions.createObjectsFrom2D()
             player.collisionBlocks = collisionBlocks
             playerPositionX = 190,
-            playerPositionY  = 550
+                playerPositionY = 550
             player.position.x = playerPositionX
             player.position.y = playerPositionY
 
             if (player.currentAnimation) player.currentAnimation.isActive = false
-               
+
 
             background = new Sprite({
                 position: {
                     x: 0,
-                    y: 0 
-            },
-            imageSrc: '../Sprites/fase2.png',
-        })
-            data = [  
+                    y: 0
+                },
+                imageSrc: '../Sprites/fase2.png',
+            })
+            data = [
                 new Sprite({
                     position: {
                         x: 1650,
@@ -400,13 +403,13 @@ let levels = {                      ////////////////////////////////////////////
                     },
                     imageSrc: '../Sprites/data.png',
                     frameRate: 11,
-                    frameBuffer: 10/2,
+                    frameBuffer: 10 / 2,
                     loop: false,
                     autoplay: false,
-                    
+
                 }),
             ]
-            shiftText = [  
+            shiftText = [
                 new Sprite({
                     position: {
                         x: 0,
@@ -414,11 +417,11 @@ let levels = {                      ////////////////////////////////////////////
                     },
                     imageSrc: '../Sprites/shift.png',
                     frameRate: 6,
-                    frameBuffer: 10/2,
-                    loop: false  
+                    frameBuffer: 10 / 2,
+                    loop: false
                 })]
-            setTimeout(function(){
-                shiftText = [  
+            setTimeout(function () {
+                shiftText = [
                     new Sprite({
                         position: {
                             x: 0,
@@ -426,22 +429,23 @@ let levels = {                      ////////////////////////////////////////////
                         },
                         imageSrc: '../Sprites/shiftOut.png',
                         frameRate: 6,
-                        frameBuffer: 7/2,
-                        loop: false  
-                    })]}, gigadelay)
-                  
-                jumpText = [  
-                    new Sprite({
-                        position: {
-                            x: 0,
-                            y: 0,
-                        },
-                        imageSrc: '../Sprites/jumpText.png',
-                        frameRate: 6,
-                        frameBuffer: 10/2,
-                        loop: false  
+                        frameBuffer: 7 / 2,
+                        loop: false
                     })]
-            
+            }, gigadelay)
+
+            jumpText = [
+                new Sprite({
+                    position: {
+                        x: 0,
+                        y: 0,
+                    },
+                    imageSrc: '../Sprites/jumpText.png',
+                    frameRate: 6,
+                    frameBuffer: 10 / 2,
+                    loop: false
+                })]
+
         },
     },
 
@@ -453,7 +457,7 @@ let levels = {                      ////////////////////////////////////////////
             collisionBlocks = parsedCollisions.createObjectsFrom2D()
             player.collisionBlocks = collisionBlocks
             playerPositionX = 1728,
-            playerPositionY  = 692
+                playerPositionY = 692
             player.position.x = playerPositionX
             player.position.y = playerPositionY
 
@@ -462,15 +466,15 @@ let levels = {                      ////////////////////////////////////////////
             background = new Sprite({
                 position: {
                     x: 0,
-                    y: 0 
-            },
-            imageSrc: '../Sprites/fase3.png',
-            frameRate: 2,
-            frameBuffer: 100/2,
-            loop: true,
-        })
+                    y: 0
+                },
+                imageSrc: '../Sprites/fase3.png',
+                frameRate: 2,
+                frameBuffer: 100 / 2,
+                loop: true,
+            })
 
-            nicholas = [  
+            nicholas = [
                 new Sprite({
                     position: {
                         x: 1700,
@@ -478,12 +482,12 @@ let levels = {                      ////////////////////////////////////////////
                     },
                     imageSrc: '../Sprites/nicholas.png',
                     frameRate: 12,
-                    frameBuffer: 5.5/2,
+                    frameBuffer: 5.5 / 2,
                     loop: true,
-                    
+
                 }),
             ]
-            trap1 = [  
+            trap1 = [
                 new Sprite({
                     position: {
                         x: 680,
@@ -491,13 +495,13 @@ let levels = {                      ////////////////////////////////////////////
                     },
                     imageSrc: '../Sprites/fogo.png',
                     frameRate: 4,
-                    frameBuffer: 10/2,
+                    frameBuffer: 10 / 2,
                     loop: true,
 
-                    
+
                 }),
             ]
-            trap2 = [  
+            trap2 = [
                 new Sprite({
                     position: {
                         x: 1093,
@@ -505,13 +509,13 @@ let levels = {                      ////////////////////////////////////////////
                     },
                     imageSrc: '../Sprites/veneno.png',
                     frameRate: 1,
-                    frameBuffer: 3/2,
+                    frameBuffer: 3 / 2,
                     loop: true,
 
-                    
+
                 }),
             ]
-            
+
 
         },
     },
@@ -523,35 +527,35 @@ let levels = {                      ////////////////////////////////////////////
             collisionBlocks = parsedCollisions.createObjectsFrom2D()
             player.collisionBlocks = collisionBlocks
             playerPositionX = 1790,
-            playerPositionY  = 10
+                playerPositionY = 10
             player.position.x = playerPositionX
             player.position.y = playerPositionY
 
             if (player.currentAnimation) player.currentAnimation.isActive = false
-               
+
 
             background = new Sprite({
                 position: {
                     x: 0,
-                    y: 0 
-            },
-            imageSrc: '../Sprites/fase4.png',
-        })
-            data = [  
+                    y: 0
+                },
+                imageSrc: '../Sprites/fase4.png',
+            })
+            data = [
                 new Sprite({
                     position: {
                         x: 220,
-                        y: 800  
+                        y: 800
                     },
                     imageSrc: '../Sprites/dataDark.png',
                     frameRate: 11,
-                    frameBuffer: 10/2,
+                    frameBuffer: 10 / 2,
                     loop: false,
                     autoplay: false,
-                    
+
                 }),
             ]
-            chuva = [  
+            chuva = [
                 new Sprite({
                     position: {
                         x: 0,
@@ -559,13 +563,13 @@ let levels = {                      ////////////////////////////////////////////
                     },
                     imageSrc: '../Sprites/chuva.png',
                     frameRate: 4,
-                    frameBuffer: 6/2,
+                    frameBuffer: 6 / 2,
                     loop: true,
 
-                    
+
                 }),
             ]
-            trap1 = [  
+            trap1 = [
                 new Sprite({
                     position: {
                         x: 704,
@@ -573,13 +577,13 @@ let levels = {                      ////////////////////////////////////////////
                     },
                     imageSrc: '../Sprites/fogoMenor.png',
                     frameRate: 4,
-                    frameBuffer: 10/2,
+                    frameBuffer: 10 / 2,
                     loop: true,
 
-                    
+
                 }),
             ]
-            trap2 = [  
+            trap2 = [
                 new Sprite({
                     position: {
                         x: 645,
@@ -587,13 +591,13 @@ let levels = {                      ////////////////////////////////////////////
                     },
                     imageSrc: '../Sprites/fogoMenor.png',
                     frameRate: 4,
-                    frameBuffer: 10/2,
+                    frameBuffer: 10 / 2,
                     loop: true,
 
-                    
+
                 }),
             ]
-            trap3 = [  
+            trap3 = [
                 new Sprite({
                     position: {
                         x: 787,
@@ -601,14 +605,14 @@ let levels = {                      ////////////////////////////////////////////
                     },
                     imageSrc: '../Sprites/fogo.png',
                     frameRate: 4,
-                    frameBuffer: 10/2,
+                    frameBuffer: 10 / 2,
                     loop: true,
 
-                    
+
                 }),
             ]
         },
-        
+
     },
     5: {
         init: () => {
@@ -617,20 +621,20 @@ let levels = {                      ////////////////////////////////////////////
             collisionBlocks = parsedCollisions.createObjectsFrom2D()
             player.collisionBlocks = collisionBlocks
             playerPositionX = 160,
-            playerPositionY = 550
+                playerPositionY = 550
             player.position.x = playerPositionX
             player.position.y = playerPositionY
             if (player.currentAnimation) player.currentAnimation.isActive = false
 
-            
+
             background = new Sprite({
                 position: {
                     x: 0,
-                    y: 0 
-            },
-            imageSrc: '../Sprites/fase5red.png',
+                    y: 0
+                },
+                imageSrc: '../Sprites/fase5red.png',
             })
-            data = [  
+            data = [
                 new Sprite({
                     position: {
                         x: 1810,
@@ -638,13 +642,13 @@ let levels = {                      ////////////////////////////////////////////
                     },
                     imageSrc: '../Sprites/data.png',
                     frameRate: 11,
-                    frameBuffer: 10/2,
+                    frameBuffer: 10 / 2,
                     loop: false,
                     autoplay: false,
-                    
+
                 }),
             ]
-            trap1 = [  
+            trap1 = [
                 new Sprite({
                     position: {
                         x: 470,
@@ -652,13 +656,13 @@ let levels = {                      ////////////////////////////////////////////
                     },
                     imageSrc: '../Sprites/raioGrandeY.png',
                     frameRate: 12,
-                    frameBuffer: 7/2,
+                    frameBuffer: 7 / 2,
                     loop: true,
 
-                    
+
                 }),
             ]
-            trap2 = [  
+            trap2 = [
                 new Sprite({
                     position: {
                         x: 320,
@@ -666,13 +670,13 @@ let levels = {                      ////////////////////////////////////////////
                     },
                     imageSrc: '../Sprites/raioGrandeYL.png',
                     frameRate: 12,
-                    frameBuffer: 7/2,
+                    frameBuffer: 7 / 2,
                     loop: true,
 
-                    
+
                 }),
             ]
-            trap3 = [  
+            trap3 = [
                 new Sprite({
                     position: {
                         x: 580,
@@ -680,13 +684,13 @@ let levels = {                      ////////////////////////////////////////////
                     },
                     imageSrc: '../Sprites/raio.png',
                     frameRate: 10,
-                    frameBuffer: 7/2,
+                    frameBuffer: 7 / 2,
                     loop: true,
 
-                    
+
                 }),
             ]
-            trap4 = [  
+            trap4 = [
                 new Sprite({
                     position: {
                         x: 910,
@@ -694,13 +698,13 @@ let levels = {                      ////////////////////////////////////////////
                     },
                     imageSrc: '../Sprites/raioPequeno.png',
                     frameRate: 10,
-                    frameBuffer: 7/2,
+                    frameBuffer: 7 / 2,
                     loop: true,
 
-                    
+
                 }),
             ]
-            trap5 = [  
+            trap5 = [
                 new Sprite({
                     position: {
                         x: 1088,
@@ -708,13 +712,13 @@ let levels = {                      ////////////////////////////////////////////
                     },
                     imageSrc: '../Sprites/raioGrandeX.png',
                     frameRate: 10,
-                    frameBuffer: 7/2,
+                    frameBuffer: 7 / 2,
                     loop: true,
 
-                    
+
                 }),
             ]
-            trap6 = [  
+            trap6 = [
                 new Sprite({
                     position: {
                         x: 808,
@@ -722,13 +726,13 @@ let levels = {                      ////////////////////////////////////////////
                     },
                     imageSrc: '../Sprites/skyTrap.png',
                     frameRate: 1,
-                    frameBuffer: 7/2,
+                    frameBuffer: 7 / 2,
                     loop: true,
 
-                    
+
                 }),
             ]
-            
+
         },
     },
     6: {
@@ -738,23 +742,23 @@ let levels = {                      ////////////////////////////////////////////
             collisionBlocks = parsedCollisions.createObjectsFrom2D()
             player.collisionBlocks = collisionBlocks
             playerPositionX = 40,
-            playerPositionY = 0
+                playerPositionY = 0
             player.position.x = playerPositionX
             player.position.y = playerPositionY
             if (player.currentAnimation) player.currentAnimation.isActive = false
 
-            
+
             background = new Sprite({
                 position: {
                     x: 0,
-                    y: 0 
-            },
-            imageSrc: '../Sprites/fase6.png',
-            frameRate: 10,
-            frameBuffer: 1200/2,
-            loop: false,        
+                    y: 0
+                },
+                imageSrc: '../Sprites/fase6.png',
+                frameRate: 10,
+                frameBuffer: 1200 / 2,
+                loop: false,
             })
-            plat = [  
+            plat = [
                 new Sprite({
                     position: {
                         x: 0,
@@ -762,12 +766,12 @@ let levels = {                      ////////////////////////////////////////////
                     },
                     imageSrc: '../Sprites/grama.png',
                     frameRate: 1,
-                    frameBuffer: 2/2,
+                    frameBuffer: 2 / 2,
                     loop: true,
-                    
+
                 }),
             ]
-            trap4 = [  
+            trap4 = [
                 new Sprite({
                     position: {
                         x: 870,
@@ -775,13 +779,13 @@ let levels = {                      ////////////////////////////////////////////
                     },
                     imageSrc: '../Sprites/raio2.png',
                     frameRate: 10,
-                    frameBuffer: 7/2,
+                    frameBuffer: 7 / 2,
                     loop: true,
 
-                    
+
                 }),
             ]
-            nicholas = [  
+            nicholas = [
                 new Sprite({
                     position: {
                         x: 673,
@@ -789,13 +793,13 @@ let levels = {                      ////////////////////////////////////////////
                     },
                     imageSrc: '../Sprites/octane.png',
                     frameRate: 12,
-                    frameBuffer: 5.5/2,
+                    frameBuffer: 5.5 / 2,
                     loop: true,
-                    
+
                 }),
             ]
 
-            
+
         },
     },
     7: {
@@ -805,20 +809,20 @@ let levels = {                      ////////////////////////////////////////////
             collisionBlocks = parsedCollisions.createObjectsFrom2D()
             player.collisionBlocks = collisionBlocks
             playerPositionX = 200,
-            playerPositionY = 795
+                playerPositionY = 795
             player.position.x = playerPositionX
             player.position.y = playerPositionY
             if (player.currentAnimation) player.currentAnimation.isActive = false
 
-            
+
             background = new Sprite({
                 position: {
                     x: 0,
-                    y: 0 
-            },
-            imageSrc: '../Sprites/fase7.png', 
+                    y: 0
+                },
+                imageSrc: '../Sprites/fase7.png',
             })
-            data = [  
+            data = [
                 new Sprite({
                     position: {
                         x: 1672,
@@ -826,30 +830,30 @@ let levels = {                      ////////////////////////////////////////////
                     },
                     imageSrc: '../Sprites/dataDark.png',
                     frameRate: 11,
-                    frameBuffer: 10/2,
+                    frameBuffer: 10 / 2,
                     loop: false,
                     autoplay: false,
-                    
+
                 }),
             ]
-            plat = [  
+            plat = [
                 new Sprite({
                     position: {
                         x: 63,
                         y: 118,
                     },
                     imageSrc: '../Sprites/orange.png',
-                    
+
                 }),
             ]
-            chuva = [  
+            chuva = [
                 new Sprite({
                     position: {
                         x: 1092,
                         y: 319,
                     },
                     imageSrc: '../Sprites/blue.png',
-                    
+
                 }),
             ]
         },
@@ -861,20 +865,20 @@ let levels = {                      ////////////////////////////////////////////
             collisionBlocks = parsedCollisions.createObjectsFrom2D()
             player.collisionBlocks = collisionBlocks
             playerPositionX = 1700, //1700
-            playerPositionY = 30 //30
+                playerPositionY = 30 //30
             player.position.x = playerPositionX
             player.position.y = playerPositionY
             if (player.currentAnimation) player.currentAnimation.isActive = false
 
-            
+
             background = new Sprite({
                 position: {
                     x: 0,
-                    y: 0 
-            },
-            imageSrc: '../Sprites/fase8.png',
+                    y: 0
+                },
+                imageSrc: '../Sprites/fase8.png',
             })
-            data = [  
+            data = [
                 new Sprite({
                     position: {
                         x: 230,
@@ -882,13 +886,13 @@ let levels = {                      ////////////////////////////////////////////
                     },
                     imageSrc: '../Sprites/data.png',
                     frameRate: 11,
-                    frameBuffer: 10/2,
+                    frameBuffer: 10 / 2,
                     loop: false,
                     autoplay: false,
-                    
+
                 }),
             ]
-            plat = [  
+            plat = [
                 new Sprite({
                     position: {
                         x: 0,
@@ -896,12 +900,12 @@ let levels = {                      ////////////////////////////////////////////
                     },
                     imageSrc: '../Sprites/fase8plat.png',
                     frameRate: 30,
-                    frameBuffer: 6/2,
+                    frameBuffer: 6 / 2,
                     loop: true,
-                    
+
                 }),
             ]
-            trap1 = [  
+            trap1 = [
                 new Sprite({
                     position: {
                         x: 381,
@@ -909,13 +913,13 @@ let levels = {                      ////////////////////////////////////////////
                     },
                     imageSrc: '../Sprites/trapin.png',
                     frameRate: 30,
-                    frameBuffer: 6/2,
+                    frameBuffer: 6 / 2,
                     loop: true,
 
-                    
+
                 }),
             ]
-             trap2 = [  
+            trap2 = [
                 new Sprite({
                     position: {
                         x: 453,
@@ -923,13 +927,13 @@ let levels = {                      ////////////////////////////////////////////
                     },
                     imageSrc: '../Sprites/trapin2.png',
                     frameRate: 30,
-                    frameBuffer: 6/2,
+                    frameBuffer: 6 / 2,
                     loop: true,
 
-                    
+
                 }),
             ]
-            trap3 = [  
+            trap3 = [
                 new Sprite({
                     position: {
                         x: 1360,
@@ -937,10 +941,10 @@ let levels = {                      ////////////////////////////////////////////
                     },
                     imageSrc: '../Sprites/trapin3.png',
                     frameRate: 30,
-                    frameBuffer: 6/2,
+                    frameBuffer: 6 / 2,
                     loop: true,
 
-                    
+
                 }),
             ]
 
@@ -953,20 +957,20 @@ let levels = {                      ////////////////////////////////////////////
             collisionBlocks = parsedCollisions.createObjectsFrom2D()
             player.collisionBlocks = collisionBlocks
             playerPositionX = 1800, //1800
-            playerPositionY = 210  //210
+                playerPositionY = 210  //210
             player.position.x = playerPositionX
             player.position.y = playerPositionY
             if (player.currentAnimation) player.currentAnimation.isActive = false
 
-            
+
             background = new Sprite({
                 position: {
                     x: 0,
-                    y: 0 
-            },
-            imageSrc: '../Sprites/fase9.png',
+                    y: 0
+                },
+                imageSrc: '../Sprites/fase9.png',
             })
-            nicholas = [  
+            nicholas = [
                 new Sprite({
                     position: {
                         x: 303,
@@ -974,12 +978,12 @@ let levels = {                      ////////////////////////////////////////////
                     },
                     imageSrc: '../Sprites/oblivion.png',
                     frameRate: 1,
-                    frameBuffer: 5.5/2,
+                    frameBuffer: 5.5 / 2,
                     loop: true,
-                    
+
                 }),
             ]
-            trap1 = [  
+            trap1 = [
                 new Sprite({
                     position: {
                         x: 997,
@@ -987,13 +991,13 @@ let levels = {                      ////////////////////////////////////////////
                     },
                     imageSrc: '../Sprites/fogoMenor.png',
                     frameRate: 4,
-                    frameBuffer: 10/2,
+                    frameBuffer: 10 / 2,
                     loop: true,
 
-                    
+
                 }),
             ]
-            trap2 = [  
+            trap2 = [
                 new Sprite({
                     position: {
                         x: 1416,
@@ -1001,30 +1005,30 @@ let levels = {                      ////////////////////////////////////////////
                     },
                     imageSrc: '../Sprites/fogoMenor.png',
                     frameRate: 4,
-                    frameBuffer: 10/2,
+                    frameBuffer: 10 / 2,
                     loop: true,
 
-                    
+
                 }),
             ]
-            plat = [  
+            plat = [
                 new Sprite({
                     position: {
                         x: 64,
                         y: 831,
                     },
                     imageSrc: '../Sprites/orange2.png',
-                    
+
                 }),
             ]
-            chuva = [  
+            chuva = [
                 new Sprite({
                     position: {
                         x: 1728,
                         y: 831,
                     },
                     imageSrc: '../Sprites/blue2.png',
-                    
+
                 }),
             ]
         }
@@ -1036,28 +1040,28 @@ let levels = {                      ////////////////////////////////////////////
             collisionBlocks = parsedCollisions.createObjectsFrom2D()
             player.collisionBlocks = collisionBlocks
             playerPositionX = 303, //1800
-            playerPositionY = 732  //210
+                playerPositionY = 732  //210
             player.position.x = playerPositionX
             player.position.y = playerPositionY
             if (player.currentAnimation) player.currentAnimation.isActive = false
 
-            
+
             background = new Sprite({
                 position: {
                     x: 0,
-                    y: 0 
-            },
-            imageSrc: '../Sprites/fase9.png',
+                    y: 0
+                },
+                imageSrc: '../Sprites/fase9.png',
             })
 
         }
     },
-           
+
 }
 
 const keys = {
-    
-    
+
+
     space: {
         pressed: false
     },
@@ -1084,78 +1088,86 @@ const overlay = {
 }
 
 
+
 function animate() {
     console.log('deat', mortes)
+
     window.requestAnimationFrame(animate)
 
     background.draw()
     collisionBlocks.forEach(collisionBlock => {
-        collisionBlock.draw()   
+        collisionBlock.draw()
     })
 
     data.forEach((dat) => {
-        dat.draw()   
+        dat.draw()
     })
 
     // DICAS
-    if (level === 1){
-    level1Text.forEach((dica1) => {
-        dica1.draw()
-    })}
-    if (player.position.x >= 1450 && player.position.y > 280 && level === 1){
-    wText.forEach((wt) => {
-        wt.draw()
-    })}
-    if (level === 2){
+    if (level === 1) {
+        level1Text.forEach((dica1) => {
+            dica1.draw()
+        })
+    }
+    if (player.position.x >= 1450 && player.position.y > 280 && level === 1) {
+        wText.forEach((wt) => {
+            wt.draw()
+        })
+    }
+    if (level === 2) {
         shiftText.forEach((shift) => {
             shift.draw()
         })
     }
-    if (player.position.x >= 1445 && level === 2){ 
-    jumpText.forEach((jt) => {
-        jt.draw()
-    })}
+    if (player.position.x >= 1445 && level === 2) {
+        jumpText.forEach((jt) => {
+            jt.draw()
+        })
+    }
 
     // OBSTACULOS
-    if (portalEnable === false){
-    portalFlick.forEach((pF) => {
-        pF.draw()
-    })}
-    if (portalEnable === true){
-    plat.forEach((p) => {
-        p.draw()
-    })}
-    if (portalEnable === true){
-    chuva.forEach((CHUVA) => {
-        CHUVA.draw()
-    })}
+    if (portalEnable === false) {
+        portalFlick.forEach((pF) => {
+            pF.draw()
+        })
+    }
+    if (portalEnable === true) {
+        plat.forEach((p) => {
+            p.draw()
+        })
+    }
+    if (portalEnable === true) {
+        chuva.forEach((CHUVA) => {
+            CHUVA.draw()
+        })
+    }
     trap1.forEach((TRAP1) => {
-        TRAP1.draw()   
+        TRAP1.draw()
     })
     trap2.forEach((TRAP2) => {
-        TRAP2.draw()   
+        TRAP2.draw()
     })
     trap3.forEach((TRAP3) => {
-        TRAP3.draw()   
+        TRAP3.draw()
     })
     trap4.forEach((TRAP4) => {
-        TRAP4.draw()   
+        TRAP4.draw()
     })
     trap5.forEach((TRAP5) => {
-        TRAP5.draw()   
+        TRAP5.draw()
     })
     trap6.forEach((TRAP6) => {
-        TRAP6.draw()   
+        TRAP6.draw()
     })
-   
+
     // NPC
     nicholas.forEach((nic) => {
-        nic.draw()   
+        nic.draw()
     })
-    
 
-  
-    
+
+
+
     player.handleInput(keys)
     player.draw()
     player.update()
@@ -1163,37 +1175,44 @@ function animate() {
     c.save()
     c.globalAlpha = overlay.opacity
     c.fillStyle = 'white'
-    c.fillRect(0,0, canvas.width, canvas.height)
+    c.fillRect(0, 0, canvas.width, canvas.height)
     c.restore()
-    
+
 
     if (player.position.y > canvas.height + 50 && vivo === true) {
         vivo = false
         c.save()
         c.globalAlpha = overlay.opacity
         c.fillStyle = 'red'
-        c.fillRect(0,0, canvas.width, canvas.height)
+        c.fillRect(0, 0, canvas.width, canvas.height)
         c.restore()
-        
-        gsap.to(overlay, {
-            opacity: 1,})
-            
-        setTimeout(function(){ gsap.to(overlay, {opacity: 0,}),player.position.x = playerPositionX,
-        player.position.y = playerPositionY, mortes += 1, vivo = true}, deelay)
 
-    
+        gsap.to(overlay, {
+            opacity: 1,
+        })
+
+        setTimeout(function () {
+            gsap.to(overlay, { opacity: 0, }), player.position.x = playerPositionX,
+                player.position.y = playerPositionY, mortes += 1, vivo = true
+            morteTexto.innerHTML = `MORTES: ${mortes}`
+        }, deelay)
+
+
         if (hardcore2 === true && normal2 === false) {
-        if (level != 1) {
-            setTimeout(function(){ gsap.to(overlay, {opacity: 0,}),player.position.x = playerPositionX,
-        player.position.y = playerPositionY, mortes += 1, vivo = true, level -=1
-        levels[level].init()}, deelay)
-        }
+            if (level != 1) {
+                setTimeout(function () {
+                    gsap.to(overlay, { opacity: 0, }), player.position.x = playerPositionX,
+                        player.position.y = playerPositionY, mortes += 1, vivo = true, level -= 1
+                    levels[level].init()
+                    morteTexto.innerHTML = `MORTES: ${mortes}`
+                }, deelay)
+            }
         }
     }
-    
+
 }
 
-    
+
 levels[level].init()
 
 animate()
